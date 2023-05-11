@@ -42,6 +42,8 @@ public class Pawn extends Piece
         if(validMoveDetected)
         {
             
+            executeMove(move);
+            
             return;
             
         }
@@ -51,6 +53,8 @@ public class Pawn extends Piece
         if(validMoveDetected)
         {
             
+            executeMove(move);
+            
             return;
 
         }
@@ -59,6 +63,8 @@ public class Pawn extends Piece
         
         if(validMoveDetected)
         {
+            
+            executeMove(move);
             
             return;
             

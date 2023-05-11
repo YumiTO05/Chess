@@ -96,7 +96,7 @@ public class BoardPanel extends JPanel
         
         if(pieceType == PieceType.KING) iconName += "K";
         
-        if(pieceType == PieceType.KNIGHT) iconName += "K";
+        if(pieceType == PieceType.KNIGHT) iconName += "N";
         
         if(pieceType == PieceType.PAWN) iconName += "P";
         

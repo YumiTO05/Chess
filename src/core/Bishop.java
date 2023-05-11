@@ -48,15 +48,11 @@ public class Bishop extends Piece
     public static boolean diagonalMove(Move move)
     {
        
-        int rowDelta, columnDelta;
+        int rowDelta = Math.abs(move.targetRow - move.sourceRow);
+                
+        int columnDelta = Math.abs(move.targetColumn - move.sourceColumn);
         
-        if(move.sourceRow < move.targetRow) rowDelta = move.targetRow - move.sourceRow;
-        else rowDelta = move.sourceRow - move.targetRow;
-        
-        if(move.sourceColumn < move.targetColumn) columnDelta = move.targetColumn - move.sourceColumn;
-        else columnDelta = move.sourceColumn - move.targetColumn;
-        
-        if(Math.abs(rowDelta) != Math.abs(columnDelta)) return false;
+        if(rowDelta != columnDelta) return false;
         
         return !move.checkObstacles();
         

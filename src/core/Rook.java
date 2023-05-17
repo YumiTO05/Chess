@@ -29,7 +29,7 @@ public class Rook extends Piece
         if(!validMoveDetected)
         {
             
-            throw new InvalidMoveException("Invalid Move Detected");
+            throw new InvalidMoveException("Invalid Move Detected - Rook");
             
         }
         

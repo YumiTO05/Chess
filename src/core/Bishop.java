@@ -30,18 +30,17 @@ public class Bishop extends Piece
         
         super.validateMove(move);
         
-        boolean validMoveDetected = true;
+        boolean validMoveDetected = diagonalMove(move);
         
         if((move.board.GetTile(move.targetRow, move.targetRow).getColor() == Color.BLACK && this.onWhite) || move.board.GetTile(move.targetRow, move.targetRow).getColor() == Color.WHITE && !this.onWhite) validMoveDetected = false;
         
         if(!validMoveDetected)
         {
             
-            throw new InvalidMoveException("Invalid Move Detected");
+            throw new InvalidMoveException("Invalid Move Detected - Bishop");
             
         }
         
-        diagonalMove(move);
         
     }
     

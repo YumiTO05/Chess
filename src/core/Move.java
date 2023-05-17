@@ -67,6 +67,14 @@ public class Move
     public void wouldEndInKingCheck()
     {
         
+        Piece movingPiece = board.tiles[this.sourceRow][this.sourceColumn].getPiece();
+        
+        Piece targetPiece = board.tiles[this.targetRow][this.targetColumn].getPiece();
+        
+        board.tiles[this.sourceRow][this.sourceColumn].setPiece(null);
+        
+        board.tiles[this.targetRow][this.targetColumn].setPiece(movingPiece);
+        
         
         
     }
@@ -82,6 +90,8 @@ public class Move
     
     public boolean isKingInCheck(int kingRow, int kingColumn, Color kingColor)
     {
+        
+        
         
         return false;
         

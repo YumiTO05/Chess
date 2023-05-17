@@ -15,9 +15,9 @@ public class Board
     
     public static final int COLUMNS = 8;
     
-    static final int LASTROW = ROWS - 1;
+    public static final int LASTROW = ROWS - 1;
     
-    static final int LASTCOLUMN = COLUMNS - 1;
+    public static final int LASTCOLUMN = COLUMNS - 1;
     
     public Tile[][] tiles;
     

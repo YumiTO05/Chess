@@ -234,10 +234,47 @@ public class BoardPanel extends JPanel
             
             drawPiece(targetRow, targetColumn, movedPiece.getType(), movedPiece.getColor());
             
+            checkCastling();
+            
         }
         
     }
     
-    
+    private void checkCastling()
+    {
+        
+        if(Game.blackLongCastlingOnGoing)
+        {
+            
+            clearPiece(0, 0);
+            
+            drawPiece(0, 3, PieceType.ROOK, Color.BLACK);
+            
+        }
+        else if(Game.blackShortCastlingOnGoing)
+        {
+            
+            clearPiece(0, Board.LASTCOLUMN);
+            
+            drawPiece(0, 5, PieceType.ROOK, Color.BLACK);
+            
+        }
+        else if(Game.whiteLongCastlingOnGoing)
+        {
+            
+            clearPiece(Board.LASTROW, 0);
+            
+            drawPiece(Board.LASTROW, 3, PieceType.ROOK, Color.WHITE);
+            
+        }
+        else if(Game.whiteShortCastlingOnGoing)
+        {
+            
+            clearPiece(Board.LASTROW, Board.LASTCOLUMN);
+            
+            drawPiece(0, 5, PieceType.ROOK, Color.WHITE);
+            
+        }
+    }
     
 }

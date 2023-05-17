@@ -4,8 +4,6 @@
  */
 package core;
 
-import java.lang.Math;
-
 /**
  *
  * @author yugon

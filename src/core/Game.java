@@ -21,6 +21,14 @@ public class Game
     
     protected Board board;
     
+    public static boolean blackLongCastlingOnGoing;
+    
+    public static boolean blackShortCastlingOnGoing;
+    
+    public static boolean whiteLongCastlingOnGoing;
+    
+    public static boolean whiteShortCastlingOnGoing;
+    
     public Game()
     {
         
@@ -278,6 +286,8 @@ public class Game
         
         Move move = new Move(sourceRow, sourceColumn, targetRow, targetColumn);
         
+        resetCastlingVariables(move);
+        
         try
         {
             
@@ -295,13 +305,10 @@ public class Game
             
             return true;
             
-            
-            
         }
         catch(InvalidMoveException ime)
         {
             
-            ime.printStackTrace();
             
         }
         
@@ -344,6 +351,30 @@ public class Game
         
         sourceTile.setPiece(null);
                 
+        
+    }
+    
+    private void resetCastlingVariables(Move move)
+    {
+        
+        Piece movingPiece = move.getPiece(move.sourceRow, move.sourceColumn);
+        
+        if(movingPiece.getColor() == Color.WHITE)
+        {
+            
+            blackLongCastlingOnGoing = false; 
+            
+            blackShortCastlingOnGoing = false;
+        
+        }
+        else
+        {
+            
+            whiteLongCastlingOnGoing = false;
+            
+            whiteShortCastlingOnGoing = false;
+            
+        }
         
     }
     

@@ -4,8 +4,6 @@
  */
 package core;
 
-import java.lang.Math;
-
 /**
  *
  * @author yumi
@@ -63,6 +61,8 @@ public class King extends Piece
             
             validMoveDetected = tryCastling(move);
             
+            executeMove(move);
+            
         }
         
         validMoveDetected |= trySingleStepMove(move);
@@ -70,7 +70,5 @@ public class King extends Piece
         if(!validMoveDetected) throw new InvalidMoveException("Invalid King Move");
         
     }
-    
-    
     
 }

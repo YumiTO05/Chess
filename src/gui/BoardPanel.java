@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -205,16 +206,16 @@ public class BoardPanel extends JPanel
                 sourceColumn = column;
                 
             }
-            else
-            {
-                
-                moveIsOnGoing = false;
-                
-                processMove(sourceRow, sourceColumn, row, column);
-                
-                highlightSourceTile(row, column, determineTileColor(row, column));
-                
-            }
+            
+        }
+        else
+        {
+
+            moveIsOnGoing = false;
+
+            processMove(sourceRow, sourceColumn, row, column);
+
+            highlightSourceTile(row, column, determineTileColor(row, column));
             
         }
         
@@ -228,13 +229,17 @@ public class BoardPanel extends JPanel
         if(isMoveProcessed)
         {
             
-            Piece movedPiece = game.getBoard().GetTile(targetRow, targetColumn).getPiece();
+            Piece movedPiece = Game.getBoard().GetTile(targetRow, targetColumn).getPiece();
             
             clearPiece(sourceRow, sourceColumn);
             
             drawPiece(targetRow, targetColumn, movedPiece.getType(), movedPiece.getColor());
             
             checkCastling();
+            
+            checkPawnPromotion();
+            
+            checkEnPassant();
             
         }
         
@@ -275,6 +280,50 @@ public class BoardPanel extends JPanel
             drawPiece(0, 5, PieceType.ROOK, Color.WHITE);
             
         }
+        
+    }
+    
+    private void checkPawnPromotion()
+    {
+        
+        core.Piece selectedPiece = new core.Bishop(PieceType.BISHOP, Color.BLACK, game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn));
+        
+        if(Game.blackPawnPromotionOnGoing)
+        {
+            
+            String promotedPieceType = (String) JOptionPane.showInputDialog(null, "Select promoted piece", "Pawn Promotion", JOptionPane.QUESTION_MESSAGE, null, new String[] {"Bishop", "Rook", "Knight", "Queen"}, "Bishop");
+            
+            if("Rook".equals(promotedPieceType)) selectedPiece = new core.Rook(PieceType.ROOK, Color.BLACK);
+            
+            if("Knight".equals(promotedPieceType)) selectedPiece = new core.Knight(PieceType.KNIGHT, Color.BLACK);
+            
+            if("Queen".equals(promotedPieceType))  selectedPiece = new core.Queen(PieceType.QUEEN, Color.BLACK);
+            
+            core.Pawn selectedPawn = (core.Pawn) game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).getPiece();
+            
+            game.removePieceFromArmy(selectedPawn, Color.BLACK);
+            
+            clearPiece(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn);
+            
+            game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).setPiece(selectedPiece);
+            
+        }
+        else if(Game.whitePawnPromotionOnGoing)
+        {
+            
+            String promotedPieceType = (String) JOptionPane.showInputDialog(null, "Select promoted piece", "Pawn Promotion", JOptionPane.QUESTION_MESSAGE, null, new String[] {"Bishop", "Rook", "Knight", "Queen"}, "Bishop");
+            
+        }
+        
+    }
+    
+    private void checkEnPassant()
+    {
+        
+        if(Game.epBlackOnGoing) clearPiece(Game.epWhitePawnRow, Game.epWhitePawnColumn);
+        
+        if(Game.epWhiteOnGoing) clearPiece(Game.epBlackPawnRow, Game.epBlackPawnColumn);
+        
     }
     
 }

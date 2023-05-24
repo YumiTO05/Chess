@@ -13,13 +13,17 @@ import java.util.ArrayList;
 public class Game 
 {
     
-    protected Color turn;
+    protected static Color turn;
     
     protected ArrayList<Piece> blackArmy; 
     
     protected ArrayList<Piece> whiteArmy;
     
-    protected Board board;
+    protected static Board board;
+    
+    public static final int BLACK_PROMOTION_ROW = 7;
+    
+    public static final int WHITE_PROMOTION_ROW = 0;
     
     public static boolean blackLongCastlingOnGoing;
     
@@ -28,6 +32,28 @@ public class Game
     public static boolean whiteLongCastlingOnGoing;
     
     public static boolean whiteShortCastlingOnGoing;
+    
+    public static int pawnPromotionColumn;
+    
+    public static boolean blackPawnPromotionOnGoing;
+    
+    public static boolean whitePawnPromotionOnGoing;
+    
+    public static boolean epLastBlackMove;
+    
+    public static boolean epLastWhiteMove;
+    
+    public static boolean epBlackOnGoing;
+    
+    public static boolean epWhiteOnGoing;
+    
+    public static int epBlackPawnRow;
+    
+    public static int epWhitePawnRow;
+    
+    public static int epBlackPawnColumn;
+    
+    public static int epWhitePawnColumn;
     
     public Game()
     {
@@ -218,14 +244,14 @@ public class Game
         
     }
     
-    public Board getBoard()
+    public static Board getBoard()
     {
         
         return board;
         
     }
     
-    public Color getTurn()
+    public static Color getTurn()
     {
         
         return turn;
@@ -287,6 +313,8 @@ public class Game
         Move move = new Move(sourceRow, sourceColumn, targetRow, targetColumn);
         
         resetCastlingVariables(move);
+        
+        resetPawnPromotionVariables(move);
         
         try
         {
@@ -359,7 +387,7 @@ public class Game
         
         Piece movingPiece = move.getPiece(move.sourceRow, move.sourceColumn);
         
-        if(movingPiece.getColor() == Color.WHITE)
+        if(movingPiece != null && movingPiece.getColor() == Color.BLACK)
         {
             
             blackLongCastlingOnGoing = false; 
@@ -367,7 +395,7 @@ public class Game
             blackShortCastlingOnGoing = false;
         
         }
-        else
+        else if(movingPiece != null && movingPiece.getColor() == Color.WHITE )
         {
             
             whiteLongCastlingOnGoing = false;
@@ -377,5 +405,39 @@ public class Game
         }
         
     }
+    
+    private void resetPawnPromotionVariables(Move move)
+    {
+        
+        Piece movingPiece = move.getPiece(move.sourceRow, move.sourceColumn);
+        
+        if(movingPiece != null && movingPiece.getColor() == Color.BLACK)
+        {
+            
+            blackPawnPromotionOnGoing = false; 
+        
+        }
+        else if(movingPiece != null && movingPiece.getColor() == Color.WHITE)
+        {
+            
+            whitePawnPromotionOnGoing = false;
+            
+        }
+        
+    }
+    
+    private void resetEpVariables(Move move)
+    {
+        
+        epBlackOnGoing = false;
+        
+        epWhiteOnGoing = false;
+        
+        if(turn == Color.BLACK) epLastWhiteMove = false;
+        
+        if(turn == Color.WHITE) epLastBlackMove = false;
+        
+    }
+    
     
 }

@@ -15,6 +15,8 @@ public class Pawn extends Piece
     
     private Game game;
     
+    boolean enPassantCapture;
+    
     public Pawn(PieceType type, Color color, Game game) 
     {
         
@@ -38,6 +40,8 @@ public class Pawn extends Piece
         
         if(validMoveDetected)
         {
+            
+            updateEp(move);
             
             executeMove(move);
             
@@ -135,24 +139,127 @@ public class Pawn extends Piece
         
         if(this.firstMove) this.firstMove = !this.firstMove;
         
+        if(this.getColor() == Color.WHITE && move.targetRow == 0)
+        {
+            
+            Game.pawnPromotionColumn = move.targetColumn;
+            
+            Game.whitePawnPromotionOnGoing = true;
+            
+        }
+         if(this.getColor() == Color.BLACK && move.targetRow == Board.LASTROW)
+         {
+             
+             Game.pawnPromotionColumn = move.targetColumn;
+             
+             Game.blackPawnPromotionOnGoing = true;
+             
+         }
+            
+        
     }
     
     public boolean tryDiagonalCapture(Move move)
     {
+
         
         int rowOffset = move.targetRow - move.sourceRow;
         
         int columnOffset = move.targetColumn - move.sourceColumn;
         
-        if(move.checkPiecePresence(move.targetRow, move.targetColumn)) return true;
+        if(move.checkPiecePresence(move.targetRow, move.targetColumn))
+        {
+            
+            return true;
+                    
+        }
+        else if((game.turn == Color.WHITE && move.targetColumn == Game.epBlackPawnColumn) || (game.turn == Color.BLACK && move.targetColumn == Game.epWhitePawnColumn))
+        {
+            
+            enPassantCapture = tryEnpassantCapture(move);
+            
+            if(enPassantCapture) return true;
+            
+        }
         
         return false;
         
     }
     
+    private void updateEp(Move move)
+    {
+        
+        if(game.turn == Color.BLACK)
+        {
+            
+            Game.epLastBlackMove = true;
+            
+            Game.epBlackPawnRow = move.targetRow;
+            
+            Game.epBlackPawnColumn = move.targetColumn;
+            
+        }
+        
+        if(game.turn == Color.WHITE)
+        {
+            
+            Game.epLastWhiteMove = true;
+            
+            Game.epWhitePawnRow = move.targetRow;
+            
+            Game.epWhitePawnColumn = move.targetColumn;
+            
+        }
+        
+    }
     
-    
-    
+    private boolean tryEnpassantCapture(Move move)
+    {
+        
+        enPassantCapture = false;
+        
+        Piece capturedPiece = null;
+        
+        if(game.turn == Color.BLACK && Game.epLastWhiteMove)
+        {
+            
+            if(move.sourceRow == Game.epWhitePawnRow && Math.abs(move.sourceColumn - Game.epWhitePawnColumn) == 1)
+            {
+                
+                Game.epBlackOnGoing = true;
+                
+                capturedPiece = move.getPiece(Game.epWhitePawnRow, Game.epWhitePawnColumn);
+                
+                move.setPiece(Game.epWhitePawnRow, Game.epWhitePawnColumn, null);
+                
+                enPassantCapture = true;
+                
+            }
+            
+        }
+        else if(game.turn == Color.WHITE && Game.epLastBlackMove)
+        {
+            
+            if(move.sourceRow == Game.epBlackPawnRow && Math.abs(move.sourceColumn - Game.epBlackPawnColumn) == 1)
+            {
+                
+                Game.epWhiteOnGoing = true;
+                
+                capturedPiece = move.getPiece(Game.epBlackPawnRow, Game.epBlackPawnColumn);
+                
+                move.setPiece(Game.epBlackPawnRow, Game.epBlackPawnColumn, null);
+                
+                enPassantCapture = true;
+                
+            }
+            
+        }
+        
+        if(enPassantCapture) game.removePieceFromArmy(capturedPiece, game.turn);
+        
+        return enPassantCapture;
+        
+    }
     
     
     

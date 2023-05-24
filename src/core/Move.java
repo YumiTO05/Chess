@@ -89,7 +89,7 @@ public class Move
                 
                 Piece pieceSelected = (Piece) board.tiles[i][j].getPiece();
                 
-                if(pieceSelected.getType() == PieceType.KING && pieceSelected.getColor() == game.getTurn())
+                if(pieceSelected != null && pieceSelected.getType() == PieceType.KING && pieceSelected.getColor() == game.getTurn())
                 {
                     
                     kingRow = i; 
@@ -102,7 +102,7 @@ public class Move
             
         }
         
-        boolean isCheck = isKingInCheck(kingRow, kingColumn, game.getTurn());
+        boolean isCheck = isKingInCheck(kingRow, kingColumn, Game.getTurn());
         
         board.tiles[this.sourceRow][this.sourceColumn].setPiece(movingPiece);
         
@@ -122,7 +122,7 @@ public class Move
         
         Piece piece = board.GetTile(row, column).getPiece();
         
-        return board.GetTile(this.sourceRow, this.sourceColumn).getPiece().getColor() == piece.getColor();
+        return piece != null && board.GetTile(this.sourceRow, this.sourceColumn).getPiece().getColor() == piece.getColor();
         
     }
     

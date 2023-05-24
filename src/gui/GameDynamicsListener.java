@@ -15,12 +15,12 @@ import java.awt.event.MouseMotionListener;
 public class GameDynamicsListener implements MouseListener, MouseMotionListener
 {
 
-    private BoardPanel boardPanel;
+    private final BoardPanel boardPanel;
     
-    public GameDynamicsListener(BoardPanel boardPanel) 
+    public GameDynamicsListener(BoardPanel boardpanel) 
     {
         
-        this.boardPanel = boardPanel;
+        boardPanel = boardpanel;
         
     }
 

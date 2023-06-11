@@ -173,7 +173,7 @@ public class Pawn extends Piece
             return true;
                     
         }
-        else if((game.turn == Color.WHITE && move.targetColumn == Game.epBlackPawnColumn) || (game.turn == Color.BLACK && move.targetColumn == Game.epWhitePawnColumn))
+        else if((this.game.turn == Color.WHITE && move.targetColumn == Game.epBlackPawnColumn) || (this.game.turn == Color.BLACK && move.targetColumn == Game.epWhitePawnColumn))
         {
             
             enPassantCapture = tryEnpassantCapture(move);
@@ -189,7 +189,7 @@ public class Pawn extends Piece
     private void updateEp(Move move)
     {
         
-        if(game.turn == Color.BLACK)
+        if(this.game.turn == Color.BLACK)
         {
             
             Game.epLastBlackMove = true;
@@ -200,7 +200,7 @@ public class Pawn extends Piece
             
         }
         
-        if(game.turn == Color.WHITE)
+        if(this.game.turn == Color.WHITE)
         {
             
             Game.epLastWhiteMove = true;
@@ -220,7 +220,7 @@ public class Pawn extends Piece
         
         Piece capturedPiece = null;
         
-        if(game.turn == Color.BLACK && Game.epLastWhiteMove)
+        if(this.game.turn == Color.BLACK && Game.epLastWhiteMove)
         {
             
             if(move.sourceRow == Game.epWhitePawnRow && Math.abs(move.sourceColumn - Game.epWhitePawnColumn) == 1)
@@ -237,7 +237,7 @@ public class Pawn extends Piece
             }
             
         }
-        else if(game.turn == Color.WHITE && Game.epLastBlackMove)
+        else if(this.game.turn == Color.WHITE && Game.epLastBlackMove)
         {
             
             if(move.sourceRow == Game.epBlackPawnRow && Math.abs(move.sourceColumn - Game.epBlackPawnColumn) == 1)
@@ -255,7 +255,7 @@ public class Pawn extends Piece
             
         }
         
-        if(enPassantCapture) game.removePieceFromArmy(capturedPiece, game.turn);
+        if(enPassantCapture) game.removePieceFromArmy(capturedPiece, this.game.turn);
         
         return enPassantCapture;
         

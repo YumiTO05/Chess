@@ -23,7 +23,7 @@ public class Move
     
     protected Game game;
     
-    public Move(int sourceRow, int sourceColumn, int targetRow, int targetColumn)
+    public Move(int sourceRow, int sourceColumn, int targetRow, int targetColumn, Game game, Board board)
     {
         
         this.sourceRow = sourceRow;
@@ -34,21 +34,25 @@ public class Move
         
         this.targetColumn = targetColumn;
         
-        board = new Board();
+        this.game = game;
+        
+        this.board = board;
+        
+        
         
     }
     
     public Piece getPiece(int row, int column)
     {
         
-        return board.GetTile(row, column).getPiece();
+        return this.board.GetTile(row, column).getPiece();
         
     }
     
     public void setPiece(int row, int column, Piece piece)
     {
         
-        board.GetTile(row, column).setPiece(piece);
+        this.board.GetTile(row, column).setPiece(piece);
         
     }
     
@@ -62,32 +66,32 @@ public class Move
     public boolean checkPiecePresence(int row, int column)
     {
         
-        return board.GetTile(row, column).getPiece() != null;
+        return this.board.GetTile(row, column).getPiece() != null;
         
     }
     
     public void wouldEndInKingCheck() throws InvalidMoveException
     {
         
-        Piece movingPiece = board.tiles[this.sourceRow][this.sourceColumn].getPiece();
+        Piece movingPiece = this.board.tiles[this.sourceRow][this.sourceColumn].getPiece();
         
-        Piece targetPiece = board.tiles[this.targetRow][this.targetColumn].getPiece();
+        Piece targetPiece = this.board.tiles[this.targetRow][this.targetColumn].getPiece();
         
-        board.tiles[this.sourceRow][this.sourceColumn].setPiece(null);
+        this.board.tiles[this.sourceRow][this.sourceColumn].setPiece(null);
         
-        board.tiles[this.targetRow][this.targetColumn].setPiece(movingPiece);
+        this.board.tiles[this.targetRow][this.targetColumn].setPiece(movingPiece);
         
         int kingRow = 0;
         
         int kingColumn = 0;
         
-        for(int i = 0; i < board.tiles.length; i++)
+        for(int i = 0; i < this.board.tiles.length; i++)
         {
             
-            for(int j = 0; j < board.tiles[i].length; j++)
+            for(int j = 0; j < this.board.tiles[i].length; j++)
             {
                 
-                Piece pieceSelected = (Piece) board.tiles[i][j].getPiece();
+                Piece pieceSelected = (Piece) this.board.tiles[i][j].getPiece();
                 
                 if(pieceSelected != null && pieceSelected.getType() == PieceType.KING && pieceSelected.getColor() == game.getTurn())
                 {
@@ -104,9 +108,9 @@ public class Move
         
         boolean isCheck = isKingInCheck(kingRow, kingColumn, Game.getTurn());
         
-        board.tiles[this.sourceRow][this.sourceColumn].setPiece(movingPiece);
+        game.board.tiles[this.sourceRow][this.sourceColumn].setPiece(movingPiece);
         
-        board.tiles[this.targetRow][this.targetColumn].setPiece(targetPiece);
+        game.board.tiles[this.targetRow][this.targetColumn].setPiece(targetPiece);
         
         if(isCheck)
         {
@@ -120,9 +124,9 @@ public class Move
     public boolean isTargetOccupiedByAlly(int row, int column)
     {
         
-        Piece piece = board.GetTile(row, column).getPiece();
+        Piece piece = this.board.GetTile(row, column).getPiece();
         
-        return piece != null && board.GetTile(this.sourceRow, this.sourceColumn).getPiece().getColor() == piece.getColor();
+        return piece != null && this.board.GetTile(this.sourceRow, this.sourceColumn).getPiece().getColor() == piece.getColor();
         
     }
     
@@ -134,17 +138,17 @@ public class Move
         if(kingColor == Color.WHITE) opponentColor = Color.BLACK;
         else opponentColor = Color.WHITE;
         
-        for(int i = 0; i < board.tiles.length; i++)
+        for(int i = 0; i < this.board.tiles.length; i++)
         {
             
-            for(int j = 0; j < board.tiles[i].length; j++)
+            for(int j = 0; j < this.board.tiles[i].length; j++)
             {
                 
-                Move actualMove = new Move(i, j, kingRow, kingColumn);
+                Move actualMove = new Move(i, j, kingRow, kingColumn, this.game, this.board);
                 
-                Piece selectedPiece = (Piece) board.tiles[i][j].getPiece();
+                Piece selectedPiece = (Piece) this.board.tiles[i][j].getPiece();
                 
-                if(selectedPiece != null && selectedPiece.getColor() == opponentColor && selectedPiece.getType() != PieceType.KING)
+                if(selectedPiece != null && selectedPiece.getColor() != opponentColor && selectedPiece.getType() != PieceType.KING)
                 {
                     
                     try
@@ -175,18 +179,18 @@ public class Move
     public boolean checkObstacles()
     {
         
-        int row = sourceRow;
+        int row = this.sourceRow;
         
-        int column = sourceColumn;
+        int column = this.sourceColumn;
         
-        boolean rowGrows = sourceRow < targetRow;
+        boolean rowGrows = this.sourceRow < this.targetRow;
         
-        boolean columnGrows = sourceColumn < targetColumn;
+        boolean columnGrows = this.sourceColumn < this.targetColumn;
         
         while(!onTarget(row, column))
         {
             
-            if(row != targetRow)
+            if(row != this.targetRow)
             {
                 
                 if(rowGrows) row++;
@@ -194,7 +198,7 @@ public class Move
                 
             }
             
-            if(column != targetColumn)
+            if(column != this.targetColumn)
             {
                                 
                 if(columnGrows) column++;
@@ -202,9 +206,11 @@ public class Move
                 
             }
             
+            if(this.board.GetTile(row, column).getPiece() != null) return true;
+
+            
             if(onTarget(row, column)) return false;
             
-            if(board.GetTile(row, column).getPiece() != null) return true;
             
         }
         

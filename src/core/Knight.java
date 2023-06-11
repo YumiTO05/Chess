@@ -24,14 +24,7 @@ public class Knight extends Piece
         
         super.validateMove(move);
         
-        boolean validMoveDetected = false;
-        
-        if(checkMove(move))
-        {
-            
-            validMoveDetected = true;
-            
-        }
+        boolean validMoveDetected = checkMove(move);
         
         if(!validMoveDetected)
         {
@@ -45,7 +38,9 @@ public class Knight extends Piece
     private boolean checkMove(Move move)
     {
         
-        return (Math.abs(move.sourceRow - move.targetRow) != 2 && Math.abs(move.sourceColumn - move.targetColumn) != 1) || (Math.abs(move.sourceRow - move.targetRow) != 1 && Math.abs(move.sourceColumn - move.targetColumn) != 2);
+        System.out.println(Math.abs(move.sourceRow - move.targetRow) + "&&" + Math.abs(move.sourceColumn - move.targetColumn) + "||" + Math.abs(move.sourceRow - move.targetRow) + "&&" + Math.abs(move.sourceColumn - move.targetColumn));
+        
+        return (Math.abs(move.sourceRow - move.targetRow) == 2 && Math.abs(move.sourceColumn - move.targetColumn) == 1) || (Math.abs(move.sourceRow - move.targetRow) == 1 && Math.abs(move.sourceColumn - move.targetColumn) == 2);
     
     }
         

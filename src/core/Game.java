@@ -19,7 +19,7 @@ public class Game
     
     protected ArrayList<Piece> whiteArmy;
     
-    protected static Board board;
+    protected Board board;
     
     public static final int BLACK_PROMOTION_ROW = 7;
     
@@ -58,13 +58,13 @@ public class Game
     public Game()
     {
         
-        turn = Color.WHITE;
+        this.turn = Color.WHITE;
         
-        blackArmy = new ArrayList<>();
+        this.blackArmy = new ArrayList<>();
         
-        whiteArmy = new ArrayList<>();
+        this.whiteArmy = new ArrayList<>();
         
-        board = new Board();
+        this.board = new Board();
         
     }
     
@@ -94,9 +94,9 @@ public class Game
                     
                     Rook blackRook = new Rook(PieceType.ROOK, Color.BLACK);
                     
-                    board.tiles[i][j].setPiece(blackRook);
+                    this.board.tiles[i][j].setPiece(blackRook);
                     
-                    blackArmy.add(blackRook);
+                    this.blackArmy.add(blackRook);
                     
                 }
                 
@@ -105,9 +105,9 @@ public class Game
                     
                     Knight blackKnight = new Knight(PieceType.KNIGHT, Color.BLACK);
                     
-                    board.tiles[i][j].setPiece(blackKnight);
+                    this.board.tiles[i][j].setPiece(blackKnight);
                     
-                    blackArmy.add(blackKnight);
+                    this.blackArmy.add(blackKnight);
                     
                 }
                 
@@ -116,9 +116,9 @@ public class Game
                     
                     Bishop blackBishop = new Bishop(PieceType.BISHOP, Color.BLACK, board.tiles[i][j]);
                     
-                    board.tiles[i][j].setPiece(blackBishop);
+                    this.board.tiles[i][j].setPiece(blackBishop);
                     
-                    blackArmy.add(blackBishop);
+                    this.blackArmy.add(blackBishop);
                 }
                 
                 if(iEqualsZero && j == 3)
@@ -126,9 +126,9 @@ public class Game
                     
                     Queen blackQueen = new Queen(PieceType.QUEEN, Color.BLACK);
                     
-                    board.tiles[i][j].setPiece(blackQueen);
+                    this.board.tiles[i][j].setPiece(blackQueen);
                     
-                    blackArmy.add(blackQueen);
+                    this.blackArmy.add(blackQueen);
                     
                 }
                 
@@ -137,9 +137,9 @@ public class Game
                     
                     King blackKing = new King(PieceType.KING, Color.BLACK);
                     
-                    board.tiles[i][j].setPiece(blackKing);
+                    this.board.tiles[i][j].setPiece(blackKing);
                     
-                    blackArmy.add(blackKing);
+                    this.blackArmy.add(blackKing);
                     
                 }
                 
@@ -148,9 +148,9 @@ public class Game
                     
                     Pawn blackPawn = new Pawn(PieceType.PAWN, Color.BLACK, this);
                     
-                    board.tiles[i][j].setPiece(blackPawn);
+                    this.board.tiles[i][j].setPiece(blackPawn);
                     
-                    blackArmy.add(blackPawn);
+                    this.blackArmy.add(blackPawn);
                     
                 }
                 
@@ -160,9 +160,9 @@ public class Game
                     
                     Rook whiteRook = new Rook(PieceType.ROOK, Color.WHITE);
                     
-                    board.tiles[i][j].setPiece(whiteRook);
+                    this.board.tiles[i][j].setPiece(whiteRook);
                     
-                    whiteArmy.add(whiteRook);
+                    this.whiteArmy.add(whiteRook);
                     
                 }
                 
@@ -171,9 +171,9 @@ public class Game
                     
                     Knight whiteKnight = new Knight(PieceType.KNIGHT, Color.WHITE);
                     
-                    board.tiles[i][j].setPiece(whiteKnight);
+                    this.board.tiles[i][j].setPiece(whiteKnight);
                     
-                    whiteArmy.add(whiteKnight);
+                    this.whiteArmy.add(whiteKnight);
                     
                 }
                 
@@ -182,9 +182,9 @@ public class Game
                     
                     Bishop whiteBishop = new Bishop(PieceType.BISHOP, Color.WHITE, board.tiles[i][j]);
                     
-                    board.tiles[i][j].setPiece(whiteBishop);
+                    this.board.tiles[i][j].setPiece(whiteBishop);
                     
-                    whiteArmy.add(whiteBishop);
+                    this.whiteArmy.add(whiteBishop);
                 }
                 
                 if(iEqualsSeven && j == 3)
@@ -192,9 +192,9 @@ public class Game
                     
                     Queen whiteQueen = new Queen(PieceType.QUEEN, Color.WHITE);
                     
-                    board.tiles[i][j].setPiece(whiteQueen);
+                    this.board.tiles[i][j].setPiece(whiteQueen);
                     
-                    whiteArmy.add(whiteQueen);
+                    this.whiteArmy.add(whiteQueen);
                     
                 }
                 
@@ -203,9 +203,9 @@ public class Game
                     
                     King whiteKing = new King(PieceType.KING, Color.WHITE);
                     
-                    board.tiles[i][j].setPiece(whiteKing);
+                    this.board.tiles[i][j].setPiece(whiteKing);
                     
-                    whiteArmy.add(whiteKing);
+                    this.whiteArmy.add(whiteKing);
                     
                 }
                 
@@ -214,9 +214,9 @@ public class Game
                     
                     Pawn whitePawn = new Pawn(PieceType.PAWN, Color.WHITE, this);
                     
-                    board.tiles[i][j].setPiece(whitePawn);
+                    this.board.tiles[i][j].setPiece(whitePawn);
                     
-                    blackArmy.add(whitePawn);
+                    this.whiteArmy.add(whitePawn);
                     
                 }
                 
@@ -235,7 +235,7 @@ public class Game
             for(int j = 0; j < board.tiles[i].length; j++)
             {
                 
-                board.tiles[i][j].setPiece(null);
+                this.board.tiles[i][j].setPiece(null);
                 
             }
             
@@ -244,10 +244,10 @@ public class Game
         
     }
     
-    public static Board getBoard()
+    public Board getBoard()
     {
         
-        return board;
+        return this.board;
         
     }
     
@@ -264,7 +264,7 @@ public class Game
         if(color == Color.BLACK)
         {
             
-            blackArmy.remove(piece);
+            this.blackArmy.remove(piece);
             
             return;
             
@@ -273,7 +273,7 @@ public class Game
         if(color == Color.WHITE)
         {
             
-            whiteArmy.remove(piece);
+            this.whiteArmy.remove(piece);
             
         }
         
@@ -285,14 +285,14 @@ public class Game
         if(color == Color.BLACK)
         {
             
-            blackArmy.add(piece);
+            this.blackArmy.add(piece);
             
         }
         
         if(color == Color.WHITE)
         {
             
-            whiteArmy.add(piece);
+            this.whiteArmy.add(piece);
             
         }
         
@@ -301,35 +301,39 @@ public class Game
     public boolean isMovedSourceValid(int row, int column)
     {
         
-        if(board.tiles[row][column].getPiece() == null) return false;
+        if(this.board.tiles[row][column].getPiece() == null) return false;
         
-        return board.tiles[row][column].getPiece().getColor() == turn;
+        return this.board.tiles[row][column].getPiece().getColor() == turn;
         
     }
     
     public boolean processMove(int sourceRow, int sourceColumn, int targetRow, int targetColumn)
     {
         
-        Move move = new Move(sourceRow, sourceColumn, targetRow, targetColumn);
+        Move move = new Move(sourceRow, sourceColumn, targetRow, targetColumn, this, this.board);
         
         resetCastlingVariables(move);
         
         resetPawnPromotionVariables(move);
         
+        resetEpVariables(move);
+        
         try
         {
             
-            Piece piece = board.GetTile(sourceRow, sourceColumn).getPiece();
+            Piece piece = this.board.GetTile(sourceRow, sourceColumn).getPiece();
             
             piece.validateMove(move);
             
             move.wouldEndInKingCheck();
+               
+            piece.executeMove(move);  
             
-            piece.executeMove(move);
+            executeMove(move);
             
-            if(turn == Color.BLACK) turn = Color.WHITE;
+            if(this.turn == Color.BLACK) this.turn = Color.WHITE;
             
-            if(turn == Color.WHITE) turn = Color.BLACK;
+            else if(this.turn == Color.WHITE) this.turn = Color.BLACK;
             
             return true;
             
@@ -337,17 +341,16 @@ public class Game
         catch(InvalidMoveException ime)
         {
             
+            return false;
             
         }
-        
-        return true;
         
     }
     
     public void validateMove(Move move) throws InvalidMoveException
     {
         
-        Piece movingPiece = board.tiles[move.sourceRow][move.sourceColumn].getPiece();
+        Piece movingPiece = this.board.tiles[move.sourceRow][move.sourceColumn].getPiece();
         
         movingPiece.validateMove(move);
         
@@ -356,9 +359,9 @@ public class Game
     public void executeMove(Move move)
     {
         
-        Tile sourceTile = board.tiles[move.sourceRow][move.sourceColumn];
+        Tile sourceTile = this.board.tiles[move.sourceRow][move.sourceColumn];
         
-        Tile targetTile = board.tiles[move.targetRow][move.targetColumn];
+        Tile targetTile = this.board.tiles[move.targetRow][move.targetColumn];
         
         Piece sourcePiece = sourceTile.getPiece();
         
@@ -369,9 +372,9 @@ public class Game
         if(targetPiece != null) 
         {
             
-            if(targetPiece.getColor() == Color.BLACK) blackArmy.remove(targetPiece);
+            if(targetPiece.getColor() == Color.BLACK) this.blackArmy.remove(targetPiece);
             
-            if(targetPiece.getColor() == Color.WHITE) whiteArmy.remove(targetPiece);
+            if(targetPiece.getColor() == Color.WHITE) this.whiteArmy.remove(targetPiece);
             
         }
         
@@ -433,9 +436,9 @@ public class Game
         
         epWhiteOnGoing = false;
         
-        if(turn == Color.BLACK) epLastWhiteMove = false;
+        if(this.turn == Color.BLACK) epLastWhiteMove = false;
         
-        if(turn == Color.WHITE) epLastBlackMove = false;
+        if(this.turn == Color.WHITE) epLastBlackMove = false;
         
     }
     

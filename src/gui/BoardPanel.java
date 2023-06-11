@@ -32,7 +32,10 @@ public class BoardPanel extends JPanel
     
     JPanel[][] tiles;
     
-    Game game;
+    /**
+     *
+     */
+    public Game game;
     
     GameDynamicsListener listener;
     
@@ -49,7 +52,7 @@ public class BoardPanel extends JPanel
         
         this.moveIsOnGoing = false;
         
-        game.setup();
+        this.game.setup();
         
         initializeLayout();
         
@@ -60,7 +63,7 @@ public class BoardPanel extends JPanel
     public java.awt.Color determineTileColor(int row, int column)
     {
         
-        Color tileColor = game.getBoard().GetTile(row, column).getColor();
+        Color tileColor = this.game.getBoard().GetTile(row, column).getColor();
         
         if(tileColor == Color.BLACK) return java.awt.Color.DARK_GRAY;
         
@@ -134,7 +137,7 @@ public class BoardPanel extends JPanel
             for(int j = 0; j < Board.COLUMNS; j++)
             {
                 
-                Piece piece = game.getBoard().GetTile(i, j).getPiece();
+                Piece piece = this.game.getBoard().GetTile(i, j).getPiece();
                 
                 if(piece != null) drawPiece(i, j, piece.getType(), piece.getColor());
                 
@@ -194,7 +197,7 @@ public class BoardPanel extends JPanel
         if(!moveIsOnGoing)
         {
             
-            if(game.isMovedSourceValid(row, column))
+            if(this.game.isMovedSourceValid(row, column))
             {
                 
                 moveIsOnGoing = true;
@@ -214,7 +217,7 @@ public class BoardPanel extends JPanel
             moveIsOnGoing = false;
 
             processMove(sourceRow, sourceColumn, row, column);
-
+            
             highlightSourceTile(row, column, determineTileColor(row, column));
             
         }
@@ -224,16 +227,18 @@ public class BoardPanel extends JPanel
     public void processMove(int sourceRow, int sourceColumn, int targetRow, int targetColumn)
     {
         
-        boolean isMoveProcessed = game.processMove(sourceRow, sourceColumn, targetRow, targetColumn);
+        boolean isMoveProcessed = this.game.processMove(sourceRow, sourceColumn, targetRow, targetColumn);
         
         if(isMoveProcessed)
         {
             
-            Piece movedPiece = Game.getBoard().GetTile(targetRow, targetColumn).getPiece();
+            Piece movedPiece = this.game.getBoard().GetTile(targetRow, targetColumn).getPiece();
             
             clearPiece(sourceRow, sourceColumn);
             
             drawPiece(targetRow, targetColumn, movedPiece.getType(), movedPiece.getColor());
+            
+            highlightSourceTile(sourceRow, sourceColumn, determineTileColor(sourceRow, sourceColumn));
             
             checkCastling();
             
@@ -286,7 +291,7 @@ public class BoardPanel extends JPanel
     private void checkPawnPromotion()
     {
         
-        core.Piece selectedPiece = new core.Bishop(PieceType.BISHOP, Color.BLACK, game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn));
+        core.Piece selectedPiece = new core.Bishop(PieceType.BISHOP, Color.BLACK, this.game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn));
         
         if(Game.blackPawnPromotionOnGoing)
         {
@@ -299,19 +304,33 @@ public class BoardPanel extends JPanel
             
             if("Queen".equals(promotedPieceType))  selectedPiece = new core.Queen(PieceType.QUEEN, Color.BLACK);
             
-            core.Pawn selectedPawn = (core.Pawn) game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).getPiece();
+            Piece selectedPawn = this.game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).getPiece();
             
-            game.removePieceFromArmy(selectedPawn, Color.BLACK);
+            this.game.removePieceFromArmy(selectedPawn, Color.BLACK);
             
             clearPiece(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn);
             
-            game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).setPiece(selectedPiece);
+            this.game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).setPiece(selectedPiece);
             
         }
         else if(Game.whitePawnPromotionOnGoing)
         {
             
             String promotedPieceType = (String) JOptionPane.showInputDialog(null, "Select promoted piece", "Pawn Promotion", JOptionPane.QUESTION_MESSAGE, null, new String[] {"Bishop", "Rook", "Knight", "Queen"}, "Bishop");
+            
+            if("Rook".equals(promotedPieceType)) selectedPiece = new core.Rook(PieceType.ROOK, Color.WHITE);
+            
+            if("Knight".equals(promotedPieceType)) selectedPiece = new core.Knight(PieceType.KNIGHT, Color.WHITE);
+            
+            if("Queen".equals(promotedPieceType))  selectedPiece = new core.Queen(PieceType.QUEEN, Color.WHITE);
+            
+            Piece selectedPawn = this.game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).getPiece();
+            
+            this.game.removePieceFromArmy(selectedPawn, Color.BLACK);
+            
+            clearPiece(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn);
+            
+            this.game.getBoard().GetTile(Game.BLACK_PROMOTION_ROW, Game.pawnPromotionColumn).setPiece(selectedPiece);
             
         }
         

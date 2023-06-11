@@ -71,7 +71,7 @@ public abstract class Piece
         return hash;
     }
     
-    public void validateMove(Move move) throws InvalidMoveException
+    public void validateMove(Move move) throws InvalidMoveException 
     {
         
         if(move.sourceRow == move.targetRow && move.sourceColumn == move.targetColumn)

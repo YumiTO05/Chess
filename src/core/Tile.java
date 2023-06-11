@@ -11,13 +11,13 @@ package core;
 public class Tile 
 {
     
-    protected int row;
+    private int row;
     
-    protected int column;
+    private int column;
     
-    protected Piece piece;
+    private Piece piece;
     
-    protected Color color;
+    private Color color;
     
     public Tile(int row, int column, Color color)
     {
